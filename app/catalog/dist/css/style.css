@@ -1,0 +1,54 @@
+/* Enter your custom styles here */
+/* Enter your custom styles here */
+.pinkLevel{
+    background-color: #f99494;
+    padding: 0.4rem 0rem 0.4rem 0rem
+}
+.pinkLevel1{
+    background-color: #fddde6;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.pinkLevel2{
+    background-color: #ffb7c5;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.pinkLevel3{
+    background-color: #f99494;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.blueLevel{
+    background-color: #367dc4;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.blueLevel1{
+    background-color: #add8e6;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.blueLevel2{
+    background-color: #8ab9f1;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.blueLevel3{
+    background-color: #4166f5;
+    padding: 0.4rem 1rem 0.4rem 1rem
+}
+.text{
+    padding: 0.4rem
+}
+.pink{
+    background-color: #f99494;
+    display: block;
+    padding: 0;
+    border: 0;
+    
+}
+.actionArea{
+    padding-right: 8px;
+    padding-bottom: 2px;
+}
+
+.UploadBtn{
+    position: initial;
+    justify-content: left;
+}   
+    

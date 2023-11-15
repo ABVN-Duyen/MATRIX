@@ -1,0 +1,22 @@
+# Generated manifest.yml based on template version 0.1.0
+# appName = GRAPH
+# language=nodejs
+# multitenancy=false
+---
+applications:
+  # -----------------------------------------------------------------------------------
+  # Backend Service
+  # -----------------------------------------------------------------------------------
+  - name: hanacloud-test
+    random-route: true # for development only
+    path: app/catalog
+    # memory: 256M
+    # buildpack: nodejs_buildpack
+    # services:
+    #   - matrix-hdi
+    # env:
+    #   destinations:
+    #     {
+    #       "name": "srv-api",
+    #       "url": "https://port4004-workspaces-ws-85c5g.jp20.applicationstudio.cloud.sap",
+    #     }

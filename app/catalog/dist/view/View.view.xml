@@ -1,0 +1,65 @@
+<mvc:View xmlns:table="sap.ui.table" xmlns:core='sap.ui.core' xmlns:stable="sap.ui.comp.smarttable" controllerName="catalog.controller.View" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:u="sap.ui.unified">
+    <Page id="page" title="{i18n>title}">
+    <l:HorizontalLayout id="HorizontalLayout">
+        <Input
+			id="clientValueHelp"
+            class="actionArea"
+			type="Text"
+			placeholder="Client"
+			showValueHelp="true"
+            showSuggestion='true'
+            suggestionItems='{/Clients}'
+            suggest=".onSuggest"
+            submit="_setClientItemModel"
+            value="{/SelectedClient}"
+			valueHelpIconSrc="sap-icon://value-help"
+			valueHelpRequest="handleValueHelp">
+            <suggestionItems>
+				<core:Item id="_IDGenItem1" text="{CLIENT}" />
+			</suggestionItems>
+        </Input>
+        <Input
+			id="clientItemValueHelp"
+            class="actionArea"
+			type="Text"
+			placeholder="Client Item"
+			showValueHelp="true"
+            showSuggestion='true'
+            suggestionItems='{/ClientItem}'
+            value="{/SelectedClientItem}"
+            submit="getInput_R"
+            suggest=".onSuggest"
+			valueHelpIconSrc="sap-icon://value-help"
+			valueHelpRequest="handleValueHelp">
+            <suggestionItems>
+				<core:Item id="_IDGenItem2" text="{CLIENT_ITEM}" />
+			</suggestionItems>
+        </Input>
+        <u:FileUploader id="fileUploader" class="actionArea" icon='sap-icon://excel-attachment' tooltip='Import Excel file' buttonOnly='true' buttonText="Import Excel file"  change="onChange" uploadComplete="onComplete" />
+        <!-- <Button id="ImportBtn" icon='sap-icon://database' text='Import Hana Database' tooltip = 'Import Hana Database' press='onPress' class="actionArea"></Button> -->
+        <Button id="UploadBtn" icon="sap-icon://upload-to-cloud" text="Upload to SAP HANA Cloud" tooltip= "Upload Input Data to SAP HANA Cloud" press='upload' class="actionArea" enabled="true"/>
+    </l:HorizontalLayout>
+        <TabContainer id='TabContainer' visible='false'>
+        </TabContainer>
+        <l:VerticalLayout id="FinalOutputColorDefineLayout"  visible="false">
+            
+            <l:HorizontalLayout id="_IDGenHorizontalLayout11">
+                <!-- <SearchField id="SearchField" 
+                enableSuggestions="true" 
+                search=".onSearch"
+			    suggest=".onSuggest"
+			    suggestionItems="{path: '/output', sorter: { path: 'MINORCLS' }}" >
+                <SuggestionItem id="SuggestionItems" text="{MINORCLS}" key="{MINORCLS}" />
+                </SearchField>
+                <MultiInput id="MultiInput" showValueHelp="true" showClearIcon="true"></MultiInput> -->
+                <Text id="_IDGenText1111" text="p-value; regression coefficient" textAlign="Left" class="text" />
+                <Text id="PinkLevel1" text="&lt;0.1; &gt;0" textAlign="Left" class="pinkLevel1" />
+                <Text id="PinkLevel2" text="&lt;0.05; &gt;0" textAlign="Left" class="pinkLevel2" />
+                <Text id="PinkLevel3" text="&lt;0.01; &gt;0" textAlign="Left" class="pinkLevel3" />
+                <Text id="BlueLevel1" text="&lt;0.1; &lt;0" textAlign="Left" class="blueLevel1" />
+                <Text id="BlueLevel2" text="&lt;0.05; &lt;0" textAlign="Left" class="blueLevel2" />
+                <Text id="BlueLevel3" text="&lt;0.01; &lt;0" textAlign="Left" class="blueLevel3" />
+            </l:HorizontalLayout>
+        </l:VerticalLayout>
+    </Page>
+</mvc:View>

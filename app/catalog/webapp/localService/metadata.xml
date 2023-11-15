@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+        <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema Namespace="CatalogService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+            <EntityContainer Name="EntityContainer">
+                <EntitySet Name="Interactions_Header" EntityType="CatalogService.Interactions_Header">
+                    <NavigationPropertyBinding Path="ITEMS" Target="Interactions_Items"/>
+                    <NavigationPropertyBinding Path="BPCOUNTRY" Target="Countries"/>
+                </EntitySet>
+                <EntitySet Name="Interactions_Items" EntityType="CatalogService.Interactions_Items">
+                    <NavigationPropertyBinding Path="INTHeader" Target="Interactions_Header"/>
+                </EntitySet>
+                <EntitySet Name="NODES_VIEW" EntityType="CatalogService.NODES_VIEW"/>
+                <EntitySet Name="LINES_VIEW" EntityType="CatalogService.LINES_VIEW"/>
+                <EntitySet Name="INPUT_SAMPLE_MATRIX" EntityType="CatalogService.INPUT_SAMPLE_MATRIX"/>
+                <EntitySet Name="Countries" EntityType="CatalogService.Countries">
+                    <NavigationPropertyBinding Path="texts" Target="Countries_texts"/>
+                    <NavigationPropertyBinding Path="localized" Target="Countries_texts"/>
+                </EntitySet>
+                <EntitySet Name="Countries_texts" EntityType="CatalogService.Countries_texts"/>
+                <FunctionImport Name="getInputSampleMatrix" Function="CatalogService.getInputSampleMatrix" EntitySet="INPUT_SAMPLE_MATRIX"/>
+                <FunctionImport Name="countInputRecords" Function="CatalogService.countInputRecords"/>
+            </EntityContainer>
+            <EntityType Name="Interactions_Header">
+                <Key>
+                    <PropertyRef Name="ID"/>
+                </Key>
+                <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+                <NavigationProperty Name="ITEMS" Type="Collection(CatalogService.Interactions_Items)" Partner="INTHeader">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <Property Name="PARTNER" Type="Edm.String" MaxLength="10"/>
+                <Property Name="LOG_DATE" Type="Edm.DateTimeOffset"/>
+                <NavigationProperty Name="BPCOUNTRY" Type="CatalogService.Countries">
+                    <ReferentialConstraint Property="BPCOUNTRY_code" ReferencedProperty="code"/>
+                </NavigationProperty>
+                <Property Name="BPCOUNTRY_code" Type="Edm.String" MaxLength="3"/>
+            </EntityType>
+            <EntityType Name="Interactions_Items">
+                <Key>
+                    <PropertyRef Name="INTHeader_ID"/>
+                    <PropertyRef Name="TEXT_ID"/>
+                </Key>
+                <NavigationProperty Name="INTHeader" Type="CatalogService.Interactions_Header" Partner="ITEMS">
+                    <ReferentialConstraint Property="INTHeader_ID" ReferencedProperty="ID"/>
+                </NavigationProperty>
+                <Property Name="INTHeader_ID" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="TEXT_ID" Type="Edm.String" MaxLength="10" Nullable="false"/>
+                <Property Name="LANGU" Type="Edm.String" MaxLength="2"/>
+                <Property Name="LOGTEXT" Type="Edm.String" MaxLength="1024"/>
+            </EntityType>
+            <EntityType Name="NODES_VIEW">
+                <Property Name="NODEKEY" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NODETITLE" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NODESTATUS" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NODESHAPE" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="LINES_VIEW">
+                <Property Name="LINEFROM" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LINETO" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LINESTATUS" Type="Edm.String" MaxLength="50"/>
+                <Property Name="LINETYPE" Type="Edm.String" MaxLength="50"/>
+            </EntityType>
+            <EntityType Name="INPUT_SAMPLE_MATRIX">
+                <Property Name="LARGECLS" Type="Edm.String" MaxLength="50"/>
+                <Property Name="MINORCLS" Type="Edm.String" MaxLength="100"/>
+                <Property Name="DEPVARNAME" Type="Edm.String" MaxLength="100"/>
+                <Property Name="EPLVARNUM" Type="Edm.String" MaxLength="50"/>
+                <Property Name="EPLVARNAME" Type="Edm.String" MaxLength="500"/>
+                <Property Name="DESIREDCOR" Type="Edm.String" MaxLength="50"/>
+                <Property Name="NOY" Type="Edm.String" MaxLength="50"/>
+                <Property Name="REGCOE" Type="Edm.Double"/>
+                <Property Name="FREEADJCOE" Type="Edm.Double"/>
+                <Property Name="PVALUE" Type="Edm.Double"/>
+            </EntityType>
+            <EntityType Name="Countries">
+                <Key>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+                <NavigationProperty Name="texts" Type="Collection(CatalogService.Countries_texts)">
+                    <OnDelete Action="Cascade"/>
+                </NavigationProperty>
+                <NavigationProperty Name="localized" Type="CatalogService.Countries_texts">
+                    <ReferentialConstraint Property="code" ReferencedProperty="code"/>
+                </NavigationProperty>
+            </EntityType>
+            <EntityType Name="Countries_texts">
+                <Key>
+                    <PropertyRef Name="locale"/>
+                    <PropertyRef Name="code"/>
+                </Key>
+                <Property Name="locale" Type="Edm.String" MaxLength="14" Nullable="false"/>
+                <Property Name="name" Type="Edm.String" MaxLength="255"/>
+                <Property Name="descr" Type="Edm.String" MaxLength="1000"/>
+                <Property Name="code" Type="Edm.String" MaxLength="3" Nullable="false"/>
+            </EntityType>
+            <Function Name="getInputSampleMatrix" IsBound="false" > 
+                <ReturnType Type="Collection(CatalogService.INPUT_SAMPLE_MATRIX)" Nullable="false"/>
+            </Function>
+            <Function Name="countInputRecords" IsBound="false" > 
+                <ReturnType Type="Edm.Boolean"/>
+            </Function>
+            <Annotations Target="CatalogService.Interactions_Header/BPCOUNTRY">
+                <Annotation Term="Common.Label" String="{i18n>Country}"/>
+                    <Annotation Term="Core.Description" String="{i18n>CountryCode.Description}"/>
+                    </Annotations>
+                    <Annotations Target="CatalogService.Interactions_Header/BPCOUNTRY_code">
+                        <Annotation Term="Common.Label" String="{i18n>Country}"/>
+                            <Annotation Term="Common.ValueList">
+                                <Record Type="Common.ValueListType">
+                                    <PropertyValue Property="Label" String="{i18n>Country}"/>
+                                        <PropertyValue Property="CollectionPath" String="Countries"/>
+                                        <PropertyValue Property="Parameters">
+                                            <Collection>
+                                                <Record Type="Common.ValueListParameterInOut">
+                                                    <PropertyValue Property="LocalDataProperty" PropertyPath="BPCOUNTRY_code"/>
+                                                    <PropertyValue Property="ValueListProperty" String="code"/>
+                                                </Record>
+                                                <Record Type="Common.ValueListParameterDisplayOnly">
+                                                    <PropertyValue Property="ValueListProperty" String="name"/>
+                                                </Record>
+                                            </Collection>
+                                        </PropertyValue>
+                                    </Record>
+                                </Annotation>
+                                <Annotation Term="Core.Description" String="{i18n>CountryCode.Description}"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.NODES_VIEW/NODEKEY">
+                                    <Annotation Term="Common.Label" String="NODEKEY"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.NODES_VIEW/NODETITLE">
+                                    <Annotation Term="Common.Label" String="NODETITLE"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.NODES_VIEW/NODESTATUS">
+                                    <Annotation Term="Common.Label" String="NODESTATUS"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.NODES_VIEW/NODESHAPE">
+                                    <Annotation Term="Common.Label" String="NODESHAPE"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.LINES_VIEW/LINEFROM">
+                                    <Annotation Term="Common.Label" String="LINEFROM"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.LINES_VIEW/LINETO">
+                                    <Annotation Term="Common.Label" String="LINETO"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.LINES_VIEW/LINESTATUS">
+                                    <Annotation Term="Common.Label" String="LINESTATUS"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.LINES_VIEW/LINETYPE">
+                                    <Annotation Term="Common.Label" String="LINETYPE"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/LARGECLS">
+                                    <Annotation Term="Common.Label" String="Large Classification"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/MINORCLS">
+                                    <Annotation Term="Common.Label" String="Minor Classification"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/DEPVARNAME">
+                                    <Annotation Term="Common.Label" String="Dependent Variable Name"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/EPLVARNUM">
+                                    <Annotation Term="Common.Label" String="Explanatory Variable Number"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/EPLVARNAME">
+                                    <Annotation Term="Common.Label" String="Explanatory Variable Name"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/DESIREDCOR">
+                                    <Annotation Term="Common.Label" String="Desired Correlation"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/NOY">
+                                    <Annotation Term="Common.Label" String="Number of Years"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/REGCOE">
+                                    <Annotation Term="Common.Label" String="Regression Coefficent"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/FREEADJCOE">
+                                    <Annotation Term="Common.Label" String="Freedom Adjust Coefficent Value"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.INPUT_SAMPLE_MATRIX/PVALUE">
+                                    <Annotation Term="Common.Label" String="p-value"/>
+                                </Annotations>
+                                <Annotations Target="CatalogService.Countries">
+                                    <Annotation Term="UI.Identification">
+                                        <Collection>
+                                            <Record Type="UI.DataField">
+                                                <PropertyValue Property="Value" Path="name"/>
+                                            </Record>
+                                        </Collection>
+                                    </Annotation>
+                                </Annotations>
+                                <Annotations Target="CatalogService.Countries/name">
+                                    <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                    </Annotations>
+                                    <Annotations Target="CatalogService.Countries/descr">
+                                        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                        </Annotations>
+                                        <Annotations Target="CatalogService.Countries/code">
+                                            <Annotation Term="Common.Text" Path="name"/>
+                                            <Annotation Term="Common.Label" String="{i18n>CountryCode}"/>
+                                            </Annotations>
+                                            <Annotations Target="CatalogService.Countries_texts/locale">
+                                                <Annotation Term="Common.Label" String="{i18n>LanguageCode}"/>
+                                                </Annotations>
+                                                <Annotations Target="CatalogService.Countries_texts/name">
+                                                    <Annotation Term="Common.Label" String="{i18n>Name}"/>
+                                                    </Annotations>
+                                                    <Annotations Target="CatalogService.Countries_texts/descr">
+                                                        <Annotation Term="Common.Label" String="{i18n>Description}"/>
+                                                        </Annotations>
+                                                        <Annotations Target="CatalogService.Countries_texts/code">
+                                                            <Annotation Term="Common.Text" Path="name"/>
+                                                            <Annotation Term="Common.Label" String="{i18n>CountryCode}"/>
+                                                            </Annotations>
+                                                        </Schema>
+                                                    </edmx:DataServices>
+                                                </edmx:Edmx>

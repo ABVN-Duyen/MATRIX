@@ -1,0 +1,23 @@
+{
+  "view/View.view.xml": 1687769870523,
+  "manifest.json": 1690957768470,
+  "utils/xlsx.js": 1681716068518,
+  "utils/locate-reuse-libs.js": 1681716068478,
+  "model/models.js": 1681716068470,
+  "controller/View.controller.js": 1690955606768,
+  "controller/App.controller.js": 1681716068450,
+  "Component.js": 1681716068450,
+  "Component-preload.js": 1690957770440,
+  "model/models-dbg.js": 1681716068470,
+  "utils/locate-reuse-libs-dbg.js": 1681716068478,
+  "utils/xlsx-dbg.js": 1681716068518,
+  "controller/View-dbg.controller.js": 1690955606768,
+  "controller/App-dbg.controller.js": 1681716068450,
+  "Component-dbg.js": 1681716068450,
+  "i18n/i18n.properties": 1681716068466,
+  "view/ValueHelpDialog.fragment.xml": 1687348826483,
+  "view/ClientItemDialog.fragment.xml": 1687769827779,
+  "view/App.view.xml": 1681716068522,
+  "css/style.css": 1681809628235,
+  "index.html": 1681716068466
+}
